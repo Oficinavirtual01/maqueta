@@ -1869,6 +1869,211 @@
       }
     }
 
+
+    /* =========================================================
+       CERTIFICADO DESCARGABLE / IMPRIMIBLE
+    ========================================================= */
+    .print-cert-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.72);
+      z-index: 120;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: auto;
+    }
+
+    .print-cert-overlay.show {
+      display: flex;
+      animation: fadeUp 0.25s ease;
+    }
+
+    .print-cert-shell {
+      width: min(980px, 100%);
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+      padding: 24px;
+      position: relative;
+    }
+
+    .print-cert-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .print-cert-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .print-cert-document {
+      border: 2px solid #143d79;
+      border-radius: 18px;
+      padding: 42px 46px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      font-family: Georgia, "Times New Roman", serif;
+      color: #172033;
+    }
+
+    .print-cert-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .print-cert-header h2 {
+      margin: 0 0 6px;
+      color: #143d79;
+      font-size: 2rem;
+    }
+
+    .print-cert-header p {
+      color: #475569;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .print-cert-title {
+      text-align: center;
+      margin: 28px 0 16px;
+      font-size: 1.7rem;
+      color: #0f172a;
+      letter-spacing: 0.03em;
+    }
+
+    .print-cert-content {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-size: 1.08rem;
+    }
+
+    .print-cert-student {
+      display: block;
+      font-size: 2rem;
+      color: #143d79;
+      margin: 10px 0 6px;
+      font-weight: 700;
+    }
+
+    .print-cert-program {
+      display: block;
+      font-size: 1.3rem;
+      margin: 12px 0 6px;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .print-cert-meta {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .print-cert-meta div {
+      padding: 14px;
+      border-radius: 16px;
+      background: #f8fbff;
+      border: 1px solid #dbe3ef;
+    }
+
+    .print-cert-meta span {
+      display: block;
+      font-size: 0.82rem;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .print-cert-meta strong {
+      display: block;
+      color: #172033;
+      font-size: 0.98rem;
+    }
+
+    .print-cert-signatures {
+      margin-top: 46px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      text-align: center;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .print-cert-signatures .line {
+      border-top: 1px solid #172033;
+      margin-bottom: 8px;
+    }
+
+    .print-cert-signatures p {
+      color: #334155;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 860px) {
+      .print-cert-meta,
+      .print-cert-signatures {
+        grid-template-columns: 1fr;
+      }
+
+      .print-cert-document {
+        padding: 28px 20px;
+      }
+    }
+
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+
+      #printCertificateOverlay,
+      #printCertificateOverlay * {
+        visibility: visible !important;
+      }
+
+      #printCertificateOverlay {
+        position: absolute !important;
+        inset: 0 !important;
+        display: block !important;
+        background: #fff !important;
+        padding: 0 !important;
+      }
+
+      .print-cert-shell {
+        box-shadow: none !important;
+        width: 100% !important;
+        padding: 0 !important;
+      }
+
+      .print-cert-actions,
+      .print-cert-close {
+        display: none !important;
+      }
+
+      .print-cert-document {
+        border: none !important;
+        border-radius: 0 !important;
+        min-height: 100vh;
+      }
+    }
+
+
     /* =========================================================
        RESPONSIVE
     ========================================================= */
@@ -2564,6 +2769,7 @@
               <input id="adminCsvInput" type="file" accept=".csv" class="hidden" onchange="handleAdministrativeCsv(event)" />
               <button class="btn btn-primary" onclick="triggerCsvUpload()">Subir CSV</button>
               <button class="btn btn-secondary" onclick="processAdministrativeCsv()">Procesar actualización</button>
+              <button class="btn btn-secondary" onclick="enviarCorreoSIGAU('inscripcion_csv')">Enviar confirmación por email</button>
               <button class="btn btn-ghost" onclick="showToast('Log de integración', 'Aquí podrías abrir el detalle de importación, errores y conciliaciones del lote CSV.')">Ver log</button>
             </div>
 
@@ -3094,6 +3300,8 @@
             </div>
             <div class="cert-actions">
               <button class="btn btn-primary" id="generateCertificateBtn" onclick="generateCertificatePreview()">Generar certificado</button>
+              <button class="btn btn-secondary" onclick="mostrarCertificadoPDF()">Ver certificado PDF</button>
+              <button class="btn btn-secondary" onclick="enviarCorreoSIGAU('certificado')">Enviar correo de certificado</button>
               <button class="btn btn-secondary" onclick="showToast('Auditoría simulada', 'Se registró el evento de validación en el historial institucional.')">Ver auditoría</button>
             </div>
           </aside>
@@ -3254,8 +3462,67 @@
       </div>
 
       <div class="inline-actions">
-        <button class="btn btn-primary" onclick="closeModal(); goToSection('portal');">Volver al portal</button>
+        <button class="btn btn-primary" onclick="enviarCorreoSIGAU('preinscripcion')">Enviar correo de preinscripción</button>
+        <button class="btn btn-secondary" onclick="closeModal(); goToSection('portal');">Volver al portal</button>
         <button class="btn btn-secondary" onclick="closeModal(); goToSection('acceso');">Ir al acceso del aspirante</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="printCertificateOverlay" class="print-cert-overlay" aria-hidden="true">
+    <div class="print-cert-shell">
+      <button class="print-cert-close" onclick="cerrarCertificadoPDF()" aria-label="Cerrar">✕</button>
+      <div class="print-cert-actions">
+        <button class="btn btn-primary" onclick="descargarCertificadoPDF()">Descargar / Imprimir PDF</button>
+        <button class="btn btn-secondary" onclick="enviarCorreoSIGAU('certificado')">Enviar correo de certificado</button>
+      </div>
+
+      <div class="print-cert-document">
+        <div class="print-cert-header">
+          <h2>Universidad del Aconcagua</h2>
+          <p>Secretaría Académica – UDA · Sistema SIGAU</p>
+        </div>
+
+        <div class="print-cert-title">CERTIFICADO DE APROBACIÓN</div>
+
+        <div class="print-cert-content">
+          Se certifica que
+          <span id="pdfCertStudent" class="print-cert-student">Sofía Romero</span>
+          ha completado satisfactoriamente la propuesta
+          <span id="pdfCertProgram" class="print-cert-program">Diplomatura en Gestión Académica Digital</span>
+          con una carga horaria de <strong>250 horas</strong> equivalentes a <strong>10 créditos académicos</strong>.
+        </div>
+
+        <div class="print-cert-meta">
+          <div>
+            <span>Legajo</span>
+            <strong id="pdfCertLegajo">9966283</strong>
+          </div>
+          <div>
+            <span>Fecha de emisión</span>
+            <strong id="pdfCertDate">—</strong>
+          </div>
+          <div>
+            <span>Código / registro</span>
+            <strong id="pdfCertCode">—</strong>
+          </div>
+        </div>
+
+        <div class="print-cert-signatures">
+          <div>
+            <div class="line"></div>
+            <p>Decano</p>
+          </div>
+          <div>
+            <div class="line"></div>
+            <p>Secretaría Académica</p>
+          </div>
+          <div>
+            <div class="line"></div>
+            <p>Directora de Posgrado</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -3280,6 +3547,92 @@
     const adminRows = document.querySelectorAll('.admin-row');
     const adminCsvInput = document.getElementById('adminCsvInput');
     let csvLoaded = false;
+
+    const SIGAU_MAIL_URL = 'https://script.google.com/macros/s/AKfycbybq67VvryxJwsjuFU8OC4WbQvI1tOo_qhf6rfN9mrq3P9dZFEJBHJLtURKvafo4eIc/exec';
+    let SIGAU_DEMO_KEY = '';
+
+    function pedirClaveSIGAU() {
+      if (SIGAU_DEMO_KEY) return SIGAU_DEMO_KEY;
+      const key = prompt('Ingrese la clave de demo para enviar correos reales:');
+      if (!key) return '';
+      SIGAU_DEMO_KEY = key.trim();
+      return SIGAU_DEMO_KEY;
+    }
+
+    async function enviarCorreoSIGAU(tipoCorreo) {
+      const clave = pedirClaveSIGAU();
+      if (!clave) {
+        showToast('Envío cancelado', 'No se ingresó la clave de demo.');
+        return;
+      }
+
+      const propuesta =
+        document.getElementById('selectedCourseTitle')?.textContent?.trim() ||
+        document.getElementById('studentCourse')?.textContent?.trim() ||
+        document.getElementById('confirmCourse')?.textContent?.trim() ||
+        'Diplomatura en Gestión Académica Digital';
+
+      const payload = new URLSearchParams({
+        key: clave,
+        tipoCorreo,
+        nombre: 'Sofía Romero',
+        propuesta,
+        legajo: '9966283',
+        horas: '250',
+        creditos: '10'
+      });
+
+      try {
+        const response = await fetch(SIGAU_MAIL_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: payload.toString()
+        });
+
+        const data = await response.json();
+        if (!data.ok) {
+          showToast('Error de envío', data.error || 'No fue posible enviar el correo.');
+          return;
+        }
+
+        const mensajes = {
+          preinscripcion: 'Se envió el correo real de preinscripción.',
+          inscripcion_csv: 'Se envió el correo real de confirmación de inscripción.',
+          certificado: 'Se envió el correo real de certificación.'
+        };
+
+        showToast('Correo enviado', mensajes[tipoCorreo] || 'Solicitud enviada correctamente.');
+      } catch (error) {
+        showToast('Error de conexión', 'No fue posible contactar la web app de correo.');
+      }
+    }
+
+    function mostrarCertificadoPDF() {
+      const overlay = document.getElementById('printCertificateOverlay');
+      const program = document.getElementById('certificateProgram')?.textContent?.trim() || 'Diplomatura en Gestión Académica Digital';
+      const date = document.getElementById('certificateMetaDate')?.textContent?.trim();
+      const code = document.getElementById('certificateMetaCode')?.textContent?.trim();
+
+      document.getElementById('pdfCertStudent').textContent = 'Sofía Romero';
+      document.getElementById('pdfCertProgram').textContent = program;
+      document.getElementById('pdfCertLegajo').textContent = '9966283';
+      document.getElementById('pdfCertDate').textContent = (date && date !== '—') ? date : new Date().toLocaleDateString('es-AR');
+      document.getElementById('pdfCertCode').textContent = (code && code !== '—') ? code : `UDA-CERT-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+
+      overlay.classList.add('show');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function cerrarCertificadoPDF() {
+      const overlay = document.getElementById('printCertificateOverlay');
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    function descargarCertificadoPDF() {
+      window.print();
+    }
+
 
     const applicantData = {
       sofia: {
@@ -3829,7 +4182,12 @@
       if (e.target.id === 'courseDetailModal') closeCourseDetail();
     });
 
+    document.getElementById('printCertificateOverlay').addEventListener('click', (e) => {
+      if (e.target.id === 'printCertificateOverlay') cerrarCertificadoPDF();
+    });
+
     syncCertificationState();
   </script>
 </body>
 </html>
+
